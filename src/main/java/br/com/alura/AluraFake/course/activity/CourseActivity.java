@@ -1,5 +1,6 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.activity;
 
+import br.com.alura.AluraFake.course.Course;
 import br.com.alura.AluraFake.task.Type;
 import jakarta.persistence.*;
 
@@ -35,11 +36,23 @@ public class CourseActivity {
         this.activityOrder = activityOrder;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public String getStatement() {
+        return statement;
+    }
+
     public Type getType() {
         return type;
     }
 
-    public Integer getOrder() {
+    public Integer getActivityOrder() {
         return activityOrder;
     }
 

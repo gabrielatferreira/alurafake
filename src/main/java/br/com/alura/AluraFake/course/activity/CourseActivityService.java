@@ -1,5 +1,6 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.activity;
 
+import br.com.alura.AluraFake.course.Course;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +23,12 @@ public class CourseActivityService {
             maxOrder = 0;
         }
 
-        // Não permitir saltos
         if (newOrder > maxOrder + 1) {
             throw new IllegalArgumentException(
                     "Ordem inválida. A sequência de atividades está incorreta."
             );
         }
 
-        // Deslocar atividades
         List<CourseActivity> toShift =
                 activityRepository
                         .findByCourseIdAndActivityOrderGreaterThanEqualOrderByActivityOrderDesc(
@@ -38,7 +37,7 @@ public class CourseActivityService {
                         );
 
         for (CourseActivity activity : toShift) {
-            activity.setActivityOrder(activity.getOrder() + 1);
+            activity.setActivityOrder(activity.getActivityOrder() + 1);
         }
     }
 }

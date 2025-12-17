@@ -1,4 +1,7 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.instructor;
+
+import br.com.alura.AluraFake.course.Course;
+import br.com.alura.AluraFake.course.Status;
 
 import java.time.LocalDateTime;
 
@@ -10,10 +13,7 @@ public class InstructorCourseItemDTO {
     private final LocalDateTime publishedAt;
     private final Long activitiesCount;
 
-    public InstructorCourseItemDTO(
-            Course course,
-            Long activitiesCount
-    ) {
+    public InstructorCourseItemDTO(Course course, Long activitiesCount) {
         this.id = course.getId();
         this.title = course.getTitle();
         this.status = course.getStatus();

@@ -1,6 +1,7 @@
 package br.com.alura.AluraFake.task;
 
 import br.com.alura.AluraFake.course.*;
+import br.com.alura.AluraFake.course.activity.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,15 +26,12 @@ public class TaskService {
         this.courseActivityService = courseActivityService;
     }
 
-    // 1.1 — Atividade de Resposta Aberta
     public void createOpenTextTask(NewOpenTextTaskDTO request) {
 
-        // A ordem deve ser um número inteiro positivo.
         if (request.getOrder() == null || request.getOrder() <= 0) {
             throw new IllegalArgumentException("Ordem deve ser um número inteiro positivo.");
         }
 
-        // Um curso só pode receber atividades se seu status for BULDING.
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado."));
 
@@ -41,7 +39,6 @@ public class TaskService {
             throw new IllegalStateException("Curso não está em BUILDING.");
         }
 
-        // O curso não pode ter duas questões com o mesmo enunciado
         boolean alreadyExists =
                 activityRepository.existsByCourseIdAndStatement(
                         course.getId(),
@@ -66,7 +63,6 @@ public class TaskService {
         activityRepository.save(activity);
     }
 
-    //1.2 — Atividade de alternativa única
     public void createSingleChoiceTask(NewSingleChoiceTaskDTO request) {
 
         Course course = courseRepository.findById(request.getCourseId())
@@ -76,7 +72,6 @@ public class TaskService {
             throw new IllegalStateException("Curso não está em BUILDING.");
         }
 
-        // Regra: não pode repetir enunciado no mesmo curso
         if (activityRepository.existsByCourseIdAndStatement(
                 course.getId(), request.getStatement())) {
             throw new IllegalArgumentException(
@@ -86,14 +81,12 @@ public class TaskService {
 
         List<SingleChoiceOptionDTO> options = request.getOptions();
 
-        // Regra: mínimo 2 e máximo 5 alternativas
         if (options.size() < 2 || options.size() > 5) {
             throw new IllegalArgumentException(
                     "A atividade deve ter no mínimo 2 e no máximo 5 alternativas."
             );
         }
 
-        // Regra: exatamente uma correta
         long correctCount = options.stream()
                 .filter(SingleChoiceOptionDTO::getIsCorrect)
                 .count();
@@ -104,7 +97,6 @@ public class TaskService {
             );
         }
 
-        // Regra: alternativas não podem ser iguais entre si
         Set<String> uniqueOptions = options.stream()
                 .map(o -> o.getOption().trim().toLowerCase())
                 .collect(Collectors.toSet());
@@ -115,7 +107,6 @@ public class TaskService {
             );
         }
 
-        // Regra: alternativa não pode ser igual ao enunciado
         String statementNormalized = request.getStatement().trim().toLowerCase();
 
         boolean equalsStatement = options.stream()
@@ -149,10 +140,8 @@ public class TaskService {
         }
     }
 
-    //1.3 — Atividade de múltipla escolha
     public void createMultipleChoiceTask(NewMultipleChoiceTaskDTO request) {
 
-        // Ordem válida
         if (request.getOrder() == null || request.getOrder() <= 0) {
             throw new IllegalArgumentException("Ordem deve ser um número inteiro positivo.");
         }
@@ -160,12 +149,10 @@ public class TaskService {
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado."));
 
-        // Curso deve estar em BUILDING
         if (course.getStatus() != Status.BUILDING) {
             throw new IllegalStateException("Curso não está em BUILDING.");
         }
 
-        // Enunciado não pode se repetir
         boolean exists = activityRepository.existsByCourseIdAndStatement(
                 course.getId(),
                 request.getStatement()
@@ -185,14 +172,12 @@ public class TaskService {
 
         long incorrectCount = options.size() - correctCount;
 
-        // Deve ter duas ou mais corretas e ao menos uma incorreta
         if (correctCount < 2 || incorrectCount < 1) {
             throw new IllegalArgumentException(
                     "Atividade de múltipla escolha deve ter ao menos duas alternativas corretas e uma incorreta."
             );
         }
 
-        // Alternativas não podem ser iguais entre si
         Set<String> uniqueOptions = options.stream()
                 .map(o -> o.getOption().trim().toLowerCase())
                 .collect(Collectors.toSet());
@@ -201,7 +186,6 @@ public class TaskService {
             throw new IllegalArgumentException("As alternativas não podem ser iguais entre si.");
         }
 
-        // Alternativas não podem ser iguais ao enunciado
         boolean equalsStatement = options.stream()
                 .anyMatch(o -> o.getOption().equalsIgnoreCase(request.getStatement()));
 

@@ -1,5 +1,7 @@
 package br.com.alura.AluraFake.course;
 
+import br.com.alura.AluraFake.course.activity.CourseActivity;
+import br.com.alura.AluraFake.course.activity.CourseActivityRepository;
 import br.com.alura.AluraFake.task.Type;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,12 +29,10 @@ public class CourseService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Curso não encontrado"));
 
-        // O curso só pode ser publicado se o status for BUILDING.
         if (course.getStatus() != Status.BUILDING) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O curso não pode ser publicado, pois não está em BUILDING.");
         }
 
-        // Conter ao menos uma atividade de cada tipo.
         List<CourseActivity> activities = courseActivityRepository.findByCourse(course);
 
         if (activities.isEmpty()) {
@@ -45,9 +45,8 @@ public class CourseService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"O curso não pode ser publicado, pois deve ter ao menos uma atividade de cada tipo.");
         }
 
-        //Ter atividades com order em sequência contínua (ex: 1, 2, 3...).
         List<Integer> orders = activities.stream()
-                .map(CourseActivity::getOrder)
+                .map(CourseActivity::getActivityOrder)
                 .sorted()
                 .toList();
 
@@ -61,9 +60,7 @@ public class CourseService {
             }
         }
 
-        // Atualiza status e publishedAt
         course.updateStatus();
-
         courseRepository.save(course);
     }
 }

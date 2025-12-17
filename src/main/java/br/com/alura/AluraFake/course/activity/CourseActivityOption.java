@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.activity;
 
 import jakarta.persistence.*;
 
@@ -23,9 +23,7 @@ public class CourseActivityOption {
     @Deprecated
     public CourseActivityOption() {}
 
-    public CourseActivityOption(CourseActivity activityId,
-                                String optionText,
-                                Boolean correct) {
+    public CourseActivityOption(CourseActivity activityId, String optionText, Boolean correct) {
         this.activityId = activityId;
         this.optionText = optionText;
         this.correct = correct;
