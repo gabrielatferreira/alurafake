@@ -32,6 +32,14 @@ public class Course {
         this.status = Status.BUILDING;
     }
 
+    public void updateStatus()  {
+        if (this.status != Status.BUILDING)  {
+            throw new IllegalStateException("Curso não está em BUILDING.");
+        }
+        this.status = Status.PUBLISHED;
+        this.publishedAt = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }
