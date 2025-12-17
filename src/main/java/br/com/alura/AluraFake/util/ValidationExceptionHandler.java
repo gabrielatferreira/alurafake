@@ -24,12 +24,20 @@ public class ValidationExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<Map<String, Object>> handleResponseStatusException(ResponseStatusException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", new Date());
-        body.put("status", ex.getStatusCode().value());
-        body.put("error", ex.getStatusCode().toString());
-        body.put("message", ex.getReason());
-        return ResponseEntity.status(ex.getStatusCode()).body(body);
+    public ResponseEntity<List<ErrorItemDTO>> handleResponseStatusException(ResponseStatusException ex) {
+        ErrorItemDTO error = new ErrorItemDTO("global", ex.getReason());
+        return ResponseEntity.status(ex.getStatusCode()).body(List.of(error));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<List<ErrorItemDTO>> handleIllegalArgument(IllegalArgumentException ex) {
+        ErrorItemDTO error = new ErrorItemDTO("global", ex.getMessage());
+        return ResponseEntity.badRequest().body(List.of(error));
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<List<ErrorItemDTO>> handleIllegalState(IllegalStateException ex) {
+        ErrorItemDTO error = new ErrorItemDTO("global", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(List.of(error));
     }
 }

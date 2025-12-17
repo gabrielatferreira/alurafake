@@ -15,6 +15,9 @@ public class CourseActivity {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @Column(nullable = false)
+    private String statement;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Type type;
@@ -25,13 +28,11 @@ public class CourseActivity {
     @Deprecated
     public CourseActivity() {}
 
-    public CourseActivity(Course course, Type type, Integer order) {
+    public CourseActivity(Course course, String statement, Type type, Integer activityOrder) {
         this.course = course;
+        this.statement = statement;
         this.type = type;
-        this.activityOrder = order;
-    }
-
-    public CourseActivity(Course course, Type type, String statement, Integer integer) {
+        this.activityOrder = activityOrder;
     }
 
     public Type getType() {
@@ -40,5 +41,9 @@ public class CourseActivity {
 
     public Integer getOrder() {
         return activityOrder;
+    }
+
+    public void setActivityOrder(Integer activityOrder) {
+        this.activityOrder = activityOrder;
     }
 }

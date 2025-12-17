@@ -57,5 +57,4 @@ public class CourseController {
         courseService.publish(id);
         return ResponseEntity.ok().build();
     }
-
 }
