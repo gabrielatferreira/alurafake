@@ -20,4 +20,6 @@ public interface CourseActivityRepository extends JpaRepository<CourseActivity,L
             Long courseId,
             Integer activityOrder
     );
+
+    long countByCourse(Course course);
 }
