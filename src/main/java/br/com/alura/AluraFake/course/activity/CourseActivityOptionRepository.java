@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.activity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
