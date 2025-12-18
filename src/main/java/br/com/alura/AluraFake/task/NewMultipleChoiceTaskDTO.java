@@ -27,15 +27,31 @@ public class NewMultipleChoiceTaskDTO {
         return courseId;
     }
 
-    public String getStatement() {
-        return statement;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public List<MultipleChoiceOptionDTO> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<MultipleChoiceOptionDTO> options) {
+        this.options = options;
     }
 
     public Integer getOrder() {
         return order;
     }
 
-    public List<MultipleChoiceOptionDTO> getOptions() {
-        return options;
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public String getStatement() {
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 }

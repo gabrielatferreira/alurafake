@@ -25,11 +25,23 @@ public class NewOpenTextTaskDTO {
         return courseId;
     }
 
-    public String getStatement() {
-        return statement;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public Integer getOrder() {
         return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public String getStatement() {
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 }

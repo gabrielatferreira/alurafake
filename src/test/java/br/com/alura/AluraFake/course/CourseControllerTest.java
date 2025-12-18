@@ -1,19 +1,26 @@
 package br.com.alura.AluraFake.course;
 
-import br.com.alura.AluraFake.user.*;
+import br.com.alura.AluraFake.user.Role;
+import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CourseController.class)
 class CourseControllerTest {
@@ -24,8 +31,11 @@ class CourseControllerTest {
     private UserRepository userRepository;
     @MockBean
     private CourseRepository courseRepository;
+    @MockBean
+    private CourseService courseService;
     @Autowired
     private ObjectMapper objectMapper;
+
 
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_invalid() throws Exception {
@@ -111,4 +121,27 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$[2].description").value("Curso de spring"));
     }
 
+    @Test
+    void publishCourse__should_return_ok_when_course_is_published() throws Exception {
+        Long courseId = 1L;
+        doNothing().when(courseService).publish(courseId);
+
+        mockMvc.perform(post("/course/{id}/publish", courseId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verify(courseService, times(1)).publish(courseId);
+    }
+
+    @Test
+    void publishCourse__should_return_404_when_course_not_found() throws Exception {
+        Long courseId = 99L;
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"))
+                .when(courseService).publish(courseId);
+
+        mockMvc.perform(post("/course/{id}/publish", courseId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$[0].field").value("global"))
+                .andExpect(jsonPath("$[0].message").value("Course not found"));
+    }
 }

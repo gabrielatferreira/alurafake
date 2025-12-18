@@ -13,6 +13,14 @@ public class MultipleChoiceOptionDTO {
     @NotNull
     private Boolean isCorrect;
 
+    public MultipleChoiceOptionDTO() {
+    }
+
+    public MultipleChoiceOptionDTO(String option, Boolean isCorrect) {
+        this.option = option;
+        this.isCorrect = isCorrect;
+    }
+
     public String getOption() {
         return option;
     }

@@ -1,9 +1,9 @@
 package br.com.alura.AluraFake.course.instructor;
 
 import br.com.alura.AluraFake.course.Course;
-import br.com.alura.AluraFake.course.activity.CourseActivityRepository;
 import br.com.alura.AluraFake.course.CourseRepository;
 import br.com.alura.AluraFake.course.Status;
+import br.com.alura.AluraFake.course.activity.CourseActivityRepository;
 import br.com.alura.AluraFake.user.User;
 import br.com.alura.AluraFake.user.UserRepository;
 import org.springframework.http.HttpStatus;

@@ -17,6 +17,11 @@ public class SingleChoiceOptionDTO {
     public SingleChoiceOptionDTO() {
     }
 
+    public SingleChoiceOptionDTO(String option, Boolean isCorrect) {
+        this.option = option;
+        this.isCorrect = isCorrect;
+    }
+
     public String getOption() {
         return option;
     }

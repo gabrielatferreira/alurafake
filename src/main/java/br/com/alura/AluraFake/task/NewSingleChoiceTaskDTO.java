@@ -32,15 +32,31 @@ public class NewSingleChoiceTaskDTO {
         return courseId;
     }
 
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
     public String getStatement() {
         return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 
     public Integer getOrder() {
         return order;
     }
 
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     public List<SingleChoiceOptionDTO> getOptions() {
         return options;
+    }
+
+    public void setOptions(List<SingleChoiceOptionDTO> options) {
+        this.options = options;
     }
 }

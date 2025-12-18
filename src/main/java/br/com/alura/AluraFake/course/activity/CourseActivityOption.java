@@ -12,9 +12,9 @@ public class CourseActivityOption {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "activity_id", nullable = false)
-    private CourseActivity activityId;
+    private CourseActivity activity;
 
-    @Column(name = "option_text",nullable = false, length = 80)
+    @Column(name = "option_text", nullable = false, length = 80)
     private String optionText;
 
     @Column(name = "is_correct", nullable = false)
@@ -23,8 +23,8 @@ public class CourseActivityOption {
     @Deprecated
     public CourseActivityOption() {}
 
-    public CourseActivityOption(CourseActivity activityId, String optionText, Boolean correct) {
-        this.activityId = activityId;
+    public CourseActivityOption(CourseActivity activity, String optionText, Boolean correct) {
+        this.activity = activity;
         this.optionText = optionText;
         this.correct = correct;
     }
