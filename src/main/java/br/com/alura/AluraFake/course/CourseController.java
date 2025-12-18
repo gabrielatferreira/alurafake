@@ -1,14 +1,17 @@
 package br.com.alura.AluraFake.course;
 
-import br.com.alura.AluraFake.user.*;
+import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.user.UserRepository;
 import br.com.alura.AluraFake.util.ErrorItemDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CourseController {
@@ -28,7 +31,6 @@ public class CourseController {
     @PostMapping("/course/new")
     public ResponseEntity createCourse(@Valid @RequestBody NewCourseDTO newCourse) {
 
-        //Caso implemente o bonus, pegue o instrutor logado
         Optional<User> possibleAuthor = userRepository
                 .findByEmail(newCourse.getEmailInstructor())
                 .filter(User::isInstructor);

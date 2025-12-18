@@ -1,6 +1,8 @@
 package br.com.alura.AluraFake.task;
 
-import br.com.alura.AluraFake.course.*;
+import br.com.alura.AluraFake.course.Course;
+import br.com.alura.AluraFake.course.CourseRepository;
+import br.com.alura.AluraFake.course.Status;
 import br.com.alura.AluraFake.course.activity.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
